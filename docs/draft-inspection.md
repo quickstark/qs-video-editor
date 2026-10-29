@@ -33,7 +33,7 @@ The original baseline passed 8 Node helper groups and 33 Python Resolve contract
 | Fresh HyperFrames/WhisperX install and backend render/transcription | Not run; existing pins preserved |
 | Real Resolve native export/import | Not run; contract/portable fixtures are separate evidence |
 | Windows/Linux | Not run |
-| GitHub push | Repository `quickstark/qs-video-editor` is empty; Git transport is now reachable. Sanitized source publication remains pending independent remote readback. |
+| GitHub source publication | Passed: sanitized source published to `quickstark/qs-video-editor/main`; independent Git fetch and GitHub API readback matched the tested source tree and 0.2.0 manifest. Public history starts from a fresh root; private migration ancestry remains local-only. |
 | Public directory readiness | Not ready: license/public URLs/publication metadata and directory review remain separate; the packaged QS logo is present. |
 
 No historical claim has been converted into release evidence. See [release gates](release.md) and [acceptance matrix](migration-spec.md).
@@ -52,8 +52,8 @@ The temporary plugin repository was moved, not copied. The temporary review Git 
 
 The plugin, marketplace, package and six public skill names now use the QS namespace. A shared transparent RGBA logo (1254 × 1254, below 5 MiB) is included in both manifests, all six skill UI records, and the reproducible checksum package. Public fixture examples use generic project/speaker names; private media and legacy history are excluded from the intended public snapshot.
 
-Current source checks passed: metadata and local documentation links; 11 runtime tests including explicit update/rollback preservation and reproducible packaging with extracted metadata validation; 8 helper groups; 33 Resolve tests. YAML was parsed for all six skill/frontmatter pairs, and the logo's transparency and package dimensions were checked. These checks do not establish a fresh live host update or a real native editor import.
+Current source checks passed: metadata and local documentation links; 11 runtime tests including explicit update/rollback preservation and reproducible packaging with extracted metadata validation; 8 helper groups; 33 Resolve tests. YAML was parsed for all six skill/frontmatter pairs, and the logo's transparency and package dimensions were checked. Live host update/recovery evidence is recorded above. A fresh renderer/ASR installation and real native editor import remain unrun.
 
 The existing media workspace is now explicitly bound to the installed 0.2.0 runtime cache. Its environment check passed. Of 61,730 inventoried file records, only the runtime receipt changed; all 61,729 protected records and 328 content-hashed records remained unchanged. One backup preserves the previous receipt. The workspace identity, dependencies, approvals and outputs are preserved. The legacy plugin was removed through the supported CLI after the new binding passed. Restoring the previous runtime from local-only private checkpoint `a8e00db` was tested in a temporary directory; its digest matched the original 0.1.0 binding exactly.
 
-GitHub source publication and final sanitized-history verification are pending. Do not push the private migration ancestry or treat this checkpoint as a published/tagged release.
+GitHub source publication and sanitized-history verification passed on 2026-10-29. The first public source commit is `5ce7149d4699b248baf3d6b74076b4bd5ebc791c`, with no parent commits; its tree SHA matched the audited local tree. The full pre-publication history is preserved under the local-only `refs/private/qs-video-editor/pre-publication` ref. Publication of these verification notes adds only a public documentation commit. No archive/tagged GitHub release or public plugin-directory listing was created. Keep those publication boundaries separate from the verified source push and local installation.

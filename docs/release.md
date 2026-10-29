@@ -1,6 +1,6 @@
 # Release preparation
 
-The first rollout is a private local/GitHub plugin. Pushing source, installing a local plugin, publishing an archive, submitting to a directory and publishing an approved listing are separate actions.
+The first rollout installs a local plugin and publishes its reusable source to GitHub. Pushing source, installing a local plugin, publishing an archive, submitting to a directory and publishing an approved listing are separate actions.
 
 ## Reproducible checks
 
@@ -55,6 +55,6 @@ Supported draft copy:
 | Category | Creativity |
 | Purpose | Focused local workflows for setup, quick video processing, transcription, motion graphics, editorial work and review, with independent workspaces and editable handoffs |
 
-Before a public release, choose the verified publisher and source license; confirm intended countries and commerce behavior; provide real public website, support, privacy and terms pages; prepare real icon files; and complete required review metadata/scans/attestations. Unknown URLs and publisher declarations remain absent rather than invented. Optional dark icons/colors are not blockers. A skills-only plugin has no MCP demo or reviewer-credentials requirement.
+Before a public plugin-directory release, choose the verified publisher and source license; confirm intended countries and commerce behavior; provide real public website, support, privacy and terms pages; prepare real icon files; and complete required review metadata/scans/attestations. Unknown URLs and publisher declarations remain absent rather than invented. Optional dark icons/colors are not blockers. A skills-only plugin has no MCP demo or reviewer-credentials requirement.
 
 GitHub source publication does not grant an open-source license. Do not infer permission to redistribute models, media, renderer binaries, fonts or music from this package. Hosted processing and integrations remain opt-in. Public submission/publication requires its own authorized final step.

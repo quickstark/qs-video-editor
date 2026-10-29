@@ -4,7 +4,7 @@
 
 Local video workflows ranging from one conversion to an editable documentary film, using FFmpeg, optional local transcription and motion graphics, and DaVinci Resolve when available.
 
-**Status: local migration candidate, undergoing release checks.** The six skills, shared runtime, workspace setup/migration, documentation and packaging are implemented. See the [verification record](docs/draft-inspection.md) for what has actually passed and which host/tool checks remain.
+**Version 0.2.0: source published and local installation verified.** The six QS skills, shared runtime, workspace migration, reproducible package and update/rollback checks passed. See the [verification record](docs/draft-inspection.md) for the evidence and optional backend/platform checks that remain.
 
 ## Choose the workflow
 
