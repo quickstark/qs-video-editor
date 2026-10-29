@@ -1,6 +1,6 @@
 # Upgrade to the QS namespace
 
-Version 0.2.0 uses the repository/package/plugin name `qs-video-editor`, marketplace `qs-video-editor-local`, display name **QS Video Editor**, and six skill names:
+Version `0.2.0` uses the plugin/repository name `qs-video-editor`, marketplace `qs-video-editor-local`, and six QS skill names:
 
 | Previous skill | Current skill |
 | --- | --- |
@@ -11,33 +11,56 @@ Version 0.2.0 uses the repository/package/plugin name `qs-video-editor`, marketp
 | `edit-video` | `qs-video-edit` |
 | `video-review` | `qs-video-review` |
 
-The package contains one logo at `assets/qs-video-editor.png`; both plugin manifests and all six skill UI metadata files reference it. There are no duplicate legacy skill aliases.
+The plugin and all six skills use the same packaged QS logo. The new package contains no legacy skill aliases.
 
-## Replace the original installed plugin
+## 1. Install the new plugin
 
-Use a terminal/session allowed to write the Codex user configuration and cache. A successful source change does not reinstall a cached plugin. Replace both absolute paths below. Run each step only after the preceding step succeeds:
+From the source checkout, register and install it:
 
 ```bash
 codex plugin marketplace add /absolute/path/to/qs-video-editor --json
 codex plugin add qs-video-editor@qs-video-editor-local --json
-node /absolute/path/to/qs-video-editor/runtime/scripts/video.mjs migrate --workspace /absolute/path/to/video-workspaces/main --json
-node /absolute/path/to/qs-video-editor/runtime/scripts/video.mjs migrate --workspace /absolute/path/to/video-workspaces/main --apply --json
-node /absolute/path/to/video-workspaces/main/.video-editor/run.mjs check --profile full --json
+```
+
+The second command prints `installedPath`. Use that cached plugin path for the migration below. Installing the new plugin leaves the workspace bound to its previous runtime until you migrate it.
+
+## 2. Migrate and check the workspace
+
+Replace both paths. Read the plan before applying it, and check the resulting binding before removing the old plugin.
+
+```bash
+QS_VIDEO_PLUGIN="/absolute/path/from/installedPath"
+QS_VIDEO_WORKSPACE="/absolute/path/to/video-workspaces/main"
+
+node "$QS_VIDEO_PLUGIN/runtime/scripts/video.mjs" migrate --workspace "$QS_VIDEO_WORKSPACE" --json
+node "$QS_VIDEO_PLUGIN/runtime/scripts/video.mjs" migrate --workspace "$QS_VIDEO_WORKSPACE" --apply --json
+
+cd "$QS_VIDEO_WORKSPACE"
+node .video-editor/run.mjs check --profile full --json
+```
+
+Migration backs up the previous receipt and any replaced configuration. It preserves workspace identity, project files, dependency locks, approvals, and outputs.
+
+## 3. Remove the old identity
+
+After the new binding passes, remove the original plugin and marketplace if they are still present:
+
+```bash
 codex plugin remove video-editor@video-editor-local --json
 codex plugin marketplace remove video-editor-local --json
 codex plugin list --marketplace qs-video-editor-local --json
 ```
 
-Verify that the new plugin is installed and enabled at version 0.2.0, all six QS skills are present, and the old identity is absent. Reload Codex if the current skill picker still shows its previous catalog. New installations omit the two removal steps.
+If a removal reports that the old identity is already absent, continue to verification. The listing should show version `0.2.0`, installed and enabled. Reload Codex and check that its picker shows the six QS names and no old `video-editor:` entries. New installations need no removal steps.
 
 ## Workspace compatibility
 
-The internal `.video-editor/` directory, schema-v1 receipt engine ID `video-editor`, and workspace-local `video:*` npm aliases are compatibility contracts, not extra public plugin names. Existing project IDs, media names, manifests, approvals and dependency locks are preserved. The binding migration updates only the reviewed runtime version/digest/location and backed-up control files; it never re-transcribes, renders or changes an approval.
+The internal `.video-editor/` directory, receipt engine ID `video-editor`, and workspace-local `video:*` npm commands keep their existing names for compatibility. They are separate from the public plugin/skill names.
 
-Sanitizing the public source changes only neutral templates, documentation and synthetic fixtures. It does not rename private projects or rewrite their historical records.
+The namespace change does not rename private projects, re-transcribe media, render a film, update dependencies, or grant an approval. Public examples use generic names; existing project records retain their original names and paths.
 
-## Update and rollback checks
+## Rollback
 
-The regression suite exercises a previous-version fixture, rejection of an unreviewed runtime change, explicit migration to the current runtime, and explicit migration back. It checks stable workspace identity, exact approval/media/lock bytes, and survival of outputs created after the update. These are runtime contract tests, not proof of a live host reinstall or editor import.
+Keep a reviewed earlier runtime available until the new installation and workspace check pass. To restore that runtime, follow the [rollback procedure](installation.md#version-binding-and-rollback). Use the earlier runtime's migration command and preserve all outputs created since the update.
 
-Keep a known earlier runtime available until installation and workspace checks succeed. To roll back a workspace, restore that reviewed runtime in a separate location and run its own `migrate --workspace <path>` plan and apply commands. Review the backed-up receipt and keep all newer outputs. Do not edit the receipt manually or reset private projects. Pre-QS history is retained locally for recovery and is excluded from the sanitized public branch; do not assume an earlier public release tag exists.
+Update/rollback contract tests and a live installed-version recovery check passed on macOS; details are in the [verification record](draft-inspection.md). Those checks do not establish native editor import. Pre-QS checkpoints are retained only in the maintainer's private local history; there is no earlier public release tag.

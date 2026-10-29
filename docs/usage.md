@@ -1,6 +1,6 @@
-# Get good results with the six skills
+# Use the six skills
 
-Tell Codex what you want to receive, where the inputs/workspace are, and what matters about the edit. A clear output and a named existing project are more useful than a long list of tools. Codex should choose the smallest workflow, reuse verified work, and ask only about decisions that materially affect the result.
+Start with the output you need, the input files or existing project, and any constraints that matter. Name the workspace so Codex can resume its manifests and approvals. Choose the workflow below; add optional tools only when the job needs them.
 
 ## Choose the entrypoint
 
@@ -13,7 +13,7 @@ Tell Codex what you want to receive, where the inputs/workspace are, and what ma
 | A film or sustained revision | `qs-video-edit` | Workspace/job, audience, deliverables, must-keep/exclude decisions |
 | Quality check of an existing revision | `qs-video-review` | Exact render/timeline, check types, known concerns |
 
-In Codex's skill picker select the namespaced entry, for example `$qs-video-editor:qs-video-quick`, when that is how the installed host displays it. Natural-language requests work too. Optional capabilities should not become a checklist imposed on every job.
+In Codex's skill picker, select the namespaced entry, such as `$qs-video-editor:qs-video-quick`. You can also ask for the workflow by name in a normal message. If you have not created a workspace, start with [installation and setup](installation.md).
 
 ## Copyable prompts
 
@@ -47,7 +47,7 @@ If speed and no recompression matter more, ask for stream copy and accept keyfra
 
 > Use qs-video-review on `<exact render>` and `<timeline>`. Inspect clip tails and transitions, check sync and captions, listen to dialogue/music, and assess pacing. Report timestamped findings and identify checks you could not perform. Do not alter the edit during review.
 
-## A sustained edit in practice
+## Work through a sustained edit
 
 1. Name the existing job or create one once. Confirm audience, deliverables, privacy, must-keep material and style.
 2. Probe sources and retain checksums. Synchronize/transcribe only material that needs it.
@@ -60,7 +60,7 @@ For documentary/wedding work, silence removal, hook-first restructuring and reac
 
 ## Terminal workflow
 
-After [workspace setup](installation.md), use the bound launcher from its root. Helpful commands:
+After [workspace setup](installation.md), run commands from the workspace root through its bound launcher:
 
 ```bash
 node .video-editor/run.mjs --help
@@ -70,7 +70,7 @@ node .video-editor/run.mjs evidence --project projects/client-interview --json
 node .video-editor/run.mjs resolve --help
 ```
 
-Scaffold sustained jobs only after selecting the full profile. It supports `documentary`, `wedding`, and `talking-head`; explicit `--project <path>` is available. Evidence output is a compact, hash-bound project/timeline summary, not a claim that footage has been watched.
+Use the `full` profile before scaffolding a sustained edit. The scaffold supports `documentary`, `wedding`, and `talking-head`, and accepts an explicit `--project <path>`. Create each job once; resume its existing files for later revisions. The evidence command summarizes project/timeline records and their hashes. It does not inspect footage.
 
 For a repeatable batch, save `operations.json`:
 
@@ -108,8 +108,8 @@ The output uses one cue per word, suitable for inspection or later grouping/styl
 
 ## Approvals and expectations
 
-Ordinary requested local editing covers necessary reversible processing. Reuse valid approvals for the same scope. External upload/generation, installs, publishing, destructive cleanup, and replacing approved outputs need their own authorization where it is not already given.
+A request for local editing covers the reversible processing needed for that edit. Existing approvals remain valid within their recorded scope. Obtain authorization for uploads, remote generation, package installs, publishing, destructive cleanup, or replacement of approved outputs when it has not already been given.
 
-Final delivery uses the reviewed render's SHA-256 and current timeline SHA-256 in both QA and its export approval entry. Keep those facts with the actual human decision; do not fabricate an approval to satisfy a script. A later change to the bytes or timeline blocks promotion. Existing legacy records remain intact; ambiguous revision coverage is a review decision, not permission to broaden them.
+Final promotion requires QA and an export approval that identify the reviewed render and current timeline by SHA-256. Record the actual review decision. Changing the render or timeline blocks promotion until the new revision is covered. Preserve legacy approvals; review unclear revision coverage before relying on them.
 
 WhisperX normalization, waveform synchronization, semantic clip ranking and full finishing still include tool-directed/manual work. The Resolve bridge implements version-1 hard-cut assembly; unsupported transitions, retimes, captions and advanced finishing require explicit treatment in the editor. See [capabilities](../runtime/references/capabilities.md) for the boundary.

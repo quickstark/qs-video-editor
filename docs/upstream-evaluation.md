@@ -1,6 +1,6 @@
 # AI video-editing repositories and methods
 
-Researched 2026-10-29 using search tools and three independent read-only research agents. These are source/documentation comparisons, not installed-tool benchmarks. No upstream code or bundled media was copied. This repository has no configured code upstream; distinguish its custom implementation from the dependency upstreams below.
+Research snapshot from 2026-10-29. This compares upstream source and documentation; it does not benchmark installed tools. No upstream code or media was copied. QS Video Editor has its own implementation and uses the dependencies listed below.
 
 ## Most relevant AI editing patterns
 
@@ -41,7 +41,7 @@ The new runtime implements the narrow patterns above: six entrypoints, a common 
 | [ffmpeg-normalize](https://github.com/slhck/ffmpeg-normalize) | Two-pass loudness normalization and before/after measurements | Compare with a small direct FFmpeg wrapper; preserve channel layout, originals and stems |
 | [whisper.cpp](https://github.com/ggml-org/whisper.cpp) | Apple Silicon-oriented local ASR candidate | Benchmark speed, memory, names and alignment on consented fixtures; do not call it a drop-in WhisperX alignment replacement |
 
-The old “current HyperFrames version unconfirmed” note was a historical observation, not a release recommendation. Its new GitHub release is now verified; the installed/pinned version remains independently unchanged. Latest is not the same as locally validated.
+The HyperFrames release listed here was checked on the research date. The workspace pin remains 0.7.109 until a different version passes the local qualification checks.
 
 ## Adoption order and experiments
 

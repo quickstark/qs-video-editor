@@ -1,6 +1,6 @@
 # QS Video Editor migration and workspace contract
 
-Status: implementation and local migration candidate under verification. Updated 2026-10-29. The user subsequently authorized implementation and GitHub push. Public directory submission is separate; no unrun acceptance test is recorded as passed.
+Status: version 0.2.0 source is published and local installation is verified on macOS. Updated 2026-10-29. This document defines the workspace contracts and full acceptance matrix; the [verification record](draft-inspection.md) identifies completed checks and remaining backend/platform work. Public plugin-directory submission is separate.
 
 ## Problem and scope
 
@@ -15,7 +15,7 @@ Scope includes moving and recording the draft, implementing focused entrypoints/
 - Shared helpers and neutral templates live under `runtime/`; the six QS skills, synchronized manifests, profile bootstrap and allowlisted packager are implemented.
 - The preserved Node suite passes 8 groups; Resolve contract tests pass 33 cases. The old README's bootstrap-test claim was not reproducible because that file is absent.
 - Keep FFmpeg/ffprobe as media core, WhisperX as current transcription baseline, HyperFrames as preferred graphics renderer, Resolve as optional native editor, and portable interchange as an offline fallback. Do not upgrade existing workspace locks as part of installation.
-- Use a private, versioned local marketplace first. Public directory preparation is a separate release gate.
+- Use the versioned local marketplace for installation. Public plugin-directory preparation is a separate release gate.
 
 See [draft inspection](draft-inspection.md) and the source-linked [GitHub evaluation](upstream-evaluation.md). Upstream capabilities are not installed capabilities.
 

@@ -1,100 +1,133 @@
-# Install, set up, and migrate
+# Install and set up a workspace
 
-The plugin contains instructions and a shared local runtime. A workspace contains your media, project decisions, dependency pins, environments, and outputs. Keep them in separate directories. Installing or updating the plugin never upgrades a project's dependencies or starts an edit.
+Install the plugin once, then create a separate workspace for your media and project files. Each workspace keeps its own dependencies and runtime binding.
 
 ## Requirements
 
-| Work | Required tools | Setup downloads |
+Installing from source needs Git and a Codex CLI that supports `codex plugin`. The commands below were checked against `codex-cli 0.163.0`.
+
+| Work | Required tools | Additional setup |
 | --- | --- | --- |
-| Quick local processing | Node 22+, FFmpeg, ffprobe | None from this plugin |
-| Motion graphics | Quick tools, workspace-pinned HyperFrames/GSAP, browser | `npm ci` after setup |
-| Local transcription | Quick tools, uv, Python 3.11, WhisperX | Locked packages, then model weights on first use |
-| Portable Resolve interchange | Python 3.11 | No editor or ASR model required |
-| Native Resolve handoff | Compatible installed/running Resolve with scripting available | Resolve is installed separately |
+| Trims, conversions, resizing, audio extraction | Node.js 22+, FFmpeg, ffprobe | None from this plugin |
+| Motion graphics | Quick tools, workspace-pinned HyperFrames/GSAP, compatible browser | Install the workspace's locked npm packages |
+| Local transcription | Quick tools, uv, Python 3.11, WhisperX | Install locked Python packages; models download on first use |
+| Portable Resolve interchange | Python 3.11 | No editor or transcription model needed |
+| Native Resolve handoff | Compatible installed/running Resolve with scripting available | Install and check Resolve separately |
 
-No API key is required for the local core. Diarization and optional remote tools have their own requirements. The macOS helper and synthetic-media tests are exercised locally; Windows/Linux and real renderer/transcription/editor import have separate verification requirements. Node/Python helpers do not bundle executable tools or model weights.
+The local core needs no API key. Speaker diarization and optional remote services have their own requirements. Tool binaries and model weights are not bundled. macOS helper and synthetic-media checks have passed; fresh renderer/ASR installs, native editor import, and Windows/Linux are [unverified](draft-inspection.md).
 
-## Install the six skills
+## 1. Install the plugin
 
-From a checked-out repository, use the installed Codex CLI's local marketplace flow:
+Run this in a terminal. If you already have the checkout, skip the clone and change to its directory.
 
 ```bash
-codex plugin marketplace add /absolute/path/to/qs-video-editor
-codex plugin add qs-video-editor@qs-video-editor-local
+git clone https://github.com/quickstark/qs-video-editor.git
+cd qs-video-editor
+
+codex plugin marketplace add "$PWD"
+codex plugin add qs-video-editor@qs-video-editor-local --json
 codex plugin list --marketplace qs-video-editor-local --json
 ```
 
-These commands were checked against `codex-cli 0.163.0` help. They write Codex's plugin configuration/cache, so the host must allow that location. Reload Codex if discovery does not refresh. Verify that `qs-video-setup`, `qs-video-quick`, `qs-video-transcribe`, `qs-video-graphics`, `qs-video-edit`, and `qs-video-review` appear. Do not install six separate copies of the runtime or copy only a skill folder: its references point to the shared runtime.
+The install result includes `installedPath`, the absolute path to the cached plugin. Keep that value for terminal workspace setup. The listing should show `qs-video-editor@qs-video-editor-local`, version `0.2.0`, installed and enabled.
 
-For a GitHub install, register the repository/ref supported by your CLI instead of a local path. Pin a reviewed tag or commit. Installation alone does not prove that all optional capabilities are ready.
+Reload Codex if its picker has not refreshed. It should show six skills: `qs-video-setup`, `qs-video-quick`, `qs-video-transcribe`, `qs-video-graphics`, `qs-video-edit`, and `qs-video-review`, under the `qs-video-editor` namespace. The plugin contains their shared runtime; copying a single skill folder is not a complete installation.
 
-For the previously installed `video-editor@video-editor-local`, use the [namespace migration](namespace-migration.md) rather than keeping both identities installed. The compatibility directory `.video-editor/`, existing `video:*` npm aliases, and receipt engine ID stay unchanged so historical workspaces keep working.
+For the original `video-editor@video-editor-local` installation, follow the [namespace migration](namespace-migration.md). For a Git marketplace instead of a checkout, the CLI accepts `codex plugin marketplace add quickstark/qs-video-editor --ref <reviewed-commit>`. Use an existing reviewed commit; no release tag has been published.
 
-## Create a workspace
+## 2. Create a workspace
 
-The easiest prompt is:
+In Codex, select `$qs-video-editor:qs-video-setup` and ask:
 
-> Use qs-video-setup to create a workspace at `<path>`. I need batch conversions only. Check the quick profile, preview the setup, then create it. Keep the workspace outside the plugin.
+```text
+Create a workspace at ~/video-workspaces/first-edit using the installed
+QS Video Editor runtime. I need batch conversions only. Check the quick
+profile, show the setup plan, create the workspace, and verify it.
+Keep it outside the plugin checkout.
+```
 
-Equivalent terminal commands, replacing both absolute paths:
+For terminal setup, replace `QS_VIDEO_PLUGIN` with the `installedPath` from the install result. Choose a new workspace outside the plugin:
 
 ```bash
-VIDEO_EDITOR_PLUGIN=/absolute/path/to/qs-video-editor
-VIDEO_WORKSPACE=/absolute/path/to/video-workspaces/my-film
-node "$VIDEO_EDITOR_PLUGIN/runtime/scripts/video.mjs" bootstrap --workspace "$VIDEO_WORKSPACE" --profile quick
-node "$VIDEO_EDITOR_PLUGIN/runtime/scripts/video.mjs" bootstrap --workspace "$VIDEO_WORKSPACE" --profile quick --apply
-cd "$VIDEO_WORKSPACE"
+QS_VIDEO_PLUGIN="/absolute/path/from/installedPath"
+QS_VIDEO_WORKSPACE="$HOME/video-workspaces/first-edit"
+
+node "$QS_VIDEO_PLUGIN/runtime/scripts/video.mjs" bootstrap --workspace "$QS_VIDEO_WORKSPACE" --profile quick --json
+node "$QS_VIDEO_PLUGIN/runtime/scripts/video.mjs" bootstrap --workspace "$QS_VIDEO_WORKSPACE" --profile quick --apply --json
+
+cd "$QS_VIDEO_WORKSPACE"
 node .video-editor/run.mjs check --profile quick
 ```
 
-The plan creates nothing. Apply writes a receipt, a thin bound launcher, and selected neutral configuration. It installs nothing and never copies footage. Paths containing spaces work when quoted.
+Read the first command's plan before running `--apply`. The plan writes nothing. Apply creates the receipt, launcher, and selected configuration; it installs no packages and copies no media. A successful check reports `Ready (quick)` and lists Node, FFmpeg, and ffprobe.
 
-| Profile | Use for | What it adds |
+You can use a source checkout as `QS_VIDEO_PLUGIN` for development. Keep that checkout available: the workspace binds to its runtime content, and later runtime changes require migration.
+
+## 3. Add only the capabilities you need
+
+| Profile | Use for | Files added |
 | --- | --- | --- |
-| `quick` | Trims, conversions, resizing, extraction | Minimal launcher/receipt and npm aliases |
-| `graphics` | Titles, overlays, motion graphics | Graphics lock and neutral brand/style files |
-| `transcribe` | Local transcripts/captions | Python manifest/lock; no renderer |
-| `full` | Sustained editorial projects | Brand/styles and editorial setup; other capabilities remain selective |
+| `quick` | Trims, conversions, resizing, extraction | Launcher, receipt, npm aliases |
+| `graphics` | Titles, overlays, motion graphics | Graphics dependency lock and brand/style files |
+| `transcribe` | Local transcripts and captions | Python manifest and lock |
+| `full` | Sustained editorial projects | Brand/style files and editorial configuration |
 
-Add capabilities explicitly when needed, for example `--profile full --capabilities graphics,transcribe,resolve-portable`. Applying an additional profile preserves existing customization; it never removes a capability. A conflicting pre-existing dependency lock requires a reviewed merge. Run `npm ci` only for graphics and `npm run video:python:sync` only for transcription, within the user's setup authorization. Both may download packages. First transcription may also download models.
+`full` includes quick processing and editorial setup. Add graphics, transcription, or portable Resolve explicitly when needed. Applying another profile adds capabilities while preserving existing customization. Conflicting dependency files require a reviewed merge.
+
+For example, add graphics using the same plugin and workspace paths:
+
+```bash
+node "$QS_VIDEO_PLUGIN/runtime/scripts/video.mjs" bootstrap --workspace "$QS_VIDEO_WORKSPACE" --profile graphics --json
+node "$QS_VIDEO_PLUGIN/runtime/scripts/video.mjs" bootstrap --workspace "$QS_VIDEO_WORKSPACE" --profile graphics --apply --json
+
+cd "$QS_VIDEO_WORKSPACE"
+npm ci
+npm run hyperframes:doctor
+node .video-editor/run.mjs check --profile graphics
+```
+
+For transcription, preview and apply the `transcribe` profile, then run `npm run video:python:sync` from the workspace and `node .video-editor/run.mjs check --profile transcribe`. Python 3.11 and uv must already be available. Package installation uses the checked-in lock; the first transcription may download model weights.
+
+Both package-install commands download dependencies. Run them in the workspace for the requested capability. For a combined setup, the dispatcher also accepts `--profile full --capabilities graphics,transcribe,resolve-portable`.
 
 ## Use an existing workspace
 
-Do not bootstrap over it or rerun project scaffolding. First inspect and migrate its command bindings:
+Resume its existing projects. To update legacy command bindings or select a different runtime, preview a migration with the chosen plugin:
 
 ```bash
-node "$VIDEO_EDITOR_PLUGIN/runtime/scripts/video.mjs" migrate --workspace /absolute/path/to/existing-workspace --json
-node "$VIDEO_EDITOR_PLUGIN/runtime/scripts/video.mjs" migrate --workspace /absolute/path/to/existing-workspace --apply --json
+QS_VIDEO_PLUGIN="/absolute/path/to/the/reviewed/plugin"
+QS_VIDEO_WORKSPACE="/absolute/path/to/existing-workspace"
+
+node "$QS_VIDEO_PLUGIN/runtime/scripts/video.mjs" migrate --workspace "$QS_VIDEO_WORKSPACE" --json
+node "$QS_VIDEO_PLUGIN/runtime/scripts/video.mjs" migrate --workspace "$QS_VIDEO_WORKSPACE" --apply --json
+
+cd "$QS_VIDEO_WORKSPACE"
+node .video-editor/run.mjs check --profile full
 ```
 
-The adapter rewrites known legacy npm helper paths to `.video-editor/run.mjs`, adds a workspace receipt, and keeps original replaced configuration in local migration backups. It preserves project data, approvals, user scripts, dependency declarations/locks, and local brand/styles. Unknown legacy script names stop the plan so they can be mapped deliberately. Applying the same migration again is a no-op.
+Migration updates known legacy npm commands and the runtime binding. It backs up replaced configuration and the previous receipt under `.video-editor/backups/`. It preserves project IDs, media, approvals, dependency locks, and customized brand/style files. Unknown legacy commands stop the plan for review. Repeating a matching migration makes no changes.
 
-Legacy source copies may still be needed by commands recorded in old project documents. Retire a redundant implementation only after its callers have been migrated, the shared runtime has been checked, and every original file is recoverable from Git history. A thin compatibility launcher can preserve an old command without retaining another implementation. Check Codex discovery separately: retiring a legacy skill does not register the new plugin. The old source and review drafts are retained in Git history.
-
-## Relocate a media workspace
-
-The `migrate` command above updates command bindings; it does not move project media. An authorized filesystem relocation must preserve the complete workspace, including dependency environments, caches, project instructions, IDs, manifests, approvals and outputs. Inventory file identities and hash durable records before moving; prefer a rename on the same filesystem so media is moved rather than copied. Keep a local relocation record and verify the new workspace through its bound launcher before retiring redundant code.
-
-This workspace was relocated to `Github/Personal/video-workspaces/main`. Its inventory, documentation backups, path mapping and retired-skill Git blob identities are recorded under `.video-editor/relocations/2026-10-29-workspace-move/` in that private workspace. Its receipt still binds the same workspace identity and runtime digest to `qs-video-editor`.
-
-The old `Github/Personal/video-editor` path remains a symlink to the relocated workspace because historical editor exports and Python entrypoints embed that absolute path. It adds no second implementation or duplicate media. Retain the link until those consumers have been explicitly relinked and tested. Do not bulk-rewrite approved manifests, historical run evidence or saved editor packages merely to change a filesystem path. A real editor import remains a separate verification step.
+Keep an earlier runtime available until the new binding passes its check. Then retire any old plugin or source copy whose callers have been migrated. The original private implementation is recoverable only from the maintainer's preserved local history, not from this public branch.
 
 ## Version binding and rollback
 
-`.video-editor/workspace.json` records workspace identity, capabilities, template hashes, plugin version/digest, and the runtime location. The launcher refuses different runtime content. Restore the recorded version if the plugin was uninstalled, the cache was evicted, or the source checkout changed. Then preview an explicit migration to change the binding. Do not repair a mismatch by editing the receipt by hand.
+`.video-editor/workspace.json` records the workspace identity, capabilities, runtime version/digest/location, and template hashes. The launcher stops if the recorded runtime is missing or its content differs. Restore that runtime or preview an explicit migration; do not edit the receipt to bypass the check.
 
-Migration backups in `.video-editor/backups/` retain original replaced file bytes and the prior receipt. A rollback restores those configuration bytes/binding; it never deletes new media, outputs, or decisions. Inspect the exact backup before restoration and verify the runtime it points to exists. There is no automatic destructive rollback command.
+To roll back, restore the reviewed earlier runtime at an available location and use its own migration plan and apply commands. Inspect the receipt/configuration backups first, then check the restored binding. Preserve outputs created since the update. There is no automatic deletion or destructive rollback command.
+
+Moving a media workspace is a separate operation. Preserve its complete inventory, hashes, dependencies, and project files, then check it at the new location. Saved editor exports or Python launchers may contain absolute paths and need relinking. The maintainer's earlier relocation and compatibility symlink are recorded in the [verification history](draft-inspection.md).
 
 ## Troubleshooting
 
-| Message | Next action |
+| Problem | Next action |
 | --- | --- |
-| Workflow absent from Codex | Verify marketplace registration and plugin listing, then reload; a repository path alone is not an installation |
-| Workspace/runtime differs | Restore the bound release or preview a migration; avoid silently using newer code |
-| Conflicting workspace files | Review the listed files; use migration for an existing workspace |
-| Setup/quick lock present | Check whether its owning process is running; do not remove a live lock |
-| HyperFrames/WhisperX missing | Enable and install only that capability in this workspace |
-| Resolve unavailable | Use verified portable interchange; identify native export/import as not run |
-| Approval does not cover render | Read existing records; obtain a decision on the current concrete revision only if scope is missing |
+| `codex plugin` is unavailable | Use a Codex CLI with plugin support; the commands were checked on 0.163.0 |
+| Skills are absent from the picker | Check the plugin listing, then reload Codex |
+| Workspace/runtime differs | Restore the recorded runtime or preview migration to a reviewed version |
+| Setup reports conflicts | Inspect the listed files; migrate an existing workspace instead of replacing its configuration |
+| A setup/quick lock exists | Check whether its owning process is running before retrying |
+| HyperFrames/WhisperX is missing | Add and install that capability in the workspace |
+| Resolve is unavailable | Use portable interchange and record native import as unverified |
+| An approval does not cover the render | Review the current revision and record a decision for that exact output |
 
-See [optimal use](usage.md) for the editing workflows and [release preparation](release.md) for verification limits.
+Continue with the [usage guide](usage.md). For release evidence and remaining limits, see the [verification record](draft-inspection.md).

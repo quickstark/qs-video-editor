@@ -2,53 +2,92 @@
 
 <img src="assets/qs-video-editor.png" width="112" alt="QS Video Editor logo">
 
-Local video workflows ranging from one conversion to an editable documentary film, using FFmpeg, optional local transcription and motion graphics, and DaVinci Resolve when available.
+Six local workflows for setup, media processing, transcription, motion graphics, editing, and review. They share one runtime and keep your media, project decisions, and outputs in a separate workspace.
 
-**Version 0.2.0: source published and local installation verified.** The six QS skills, shared runtime, workspace migration, reproducible package and update/rollback checks passed. See the [verification record](docs/draft-inspection.md) for the evidence and optional backend/platform checks that remain.
+FFmpeg handles media processing. HyperFrames handles graphics, WhisperX handles local transcription, and DaVinci Resolve provides an optional editor handoff. Set up only the tools your job needs.
 
-## Choose the workflow
+## Install
 
-These six entrypoints share one runtime and the same project contracts.
+You need the **Codex CLI with `codex plugin` support**, Git, Node.js 22+, and FFmpeg/ffprobe on your command path. Python, graphics packages, and transcription models are needed only for the workflows that use them.
 
-| Workflow | Use it for | Default setup profile |
-| --- | --- | --- |
-| `qs-video-setup` | Inspect requirements, create a workspace, enable selected capabilities | Selected by the job |
-| `qs-video-quick` | Single or batch trims, conversions, resizing, audio extraction | `quick` |
-| `qs-video-transcribe` | Local transcripts, corrections, caption preparation | `transcribe` |
-| `qs-video-graphics` | Titles, lower thirds, overlays, standalone motion graphics | `graphics` |
-| `qs-video-edit` | Full editorial work with Resolve or a portable editable handoff | `full`, narrowed to needed stages |
-| `qs-video-review` | Technical, visual, listening, editorial, and editor-import checks | Only tools needed by the selected checks |
-
-Start with [the usage guide](docs/usage.md) for copyable prompts and guidance on resuming projects. For a simple conversion, specify input and output paths and use `qs-video-quick`. For a film, name a workspace and project, then use `qs-video-edit`. Existing jobs should resume from their manifests rather than be scaffolded again.
-
-Install `qs-video-editor@qs-video-editor-local` using the [installation guide](docs/installation.md). Upgrading the original local plugin? Follow the [QS namespace migration](docs/namespace-migration.md) so only the new six skill names remain installed.
-
-## Where things live
-
-This source repository is `Github/Personal/qs-video-editor`, matching [quickstark/qs-video-editor](https://github.com/quickstark/qs-video-editor). Existing projects and media live separately in `Github/Personal/video-workspaces/main`. The old `Github/Personal/video-editor` entry is a compatibility symlink to that workspace so saved editor exports and Python launchers still resolve their absolute paths; it contains no second plugin or media copy. The redundant workspace-local skill implementation has been removed, with its original files recoverable from the preserved local-only private history. New workspaces should be siblings, for example `Github/Personal/video-workspaces/client-film`, outside the installed plugin and this source checkout.
-
-On this Mac, `Personal` and `personal` resolve to the same directory. Git may display the existing lowercase spelling.
-
-## Read next
-
-| Document | Purpose |
-| --- | --- |
-| [Migration specification](docs/migration-spec.md) | Architecture, contracts, phased implementation, and acceptance tests |
-| [Installation and setup](docs/installation.md) | Current checks, target install process, profiles, and troubleshooting |
-| [Optimal use](docs/usage.md) | Workflow selection, prompt examples, approvals, and handoff expectations |
-| [Draft inspection](docs/draft-inspection.md) | Preserved history, observed test results, and release blockers |
-| [GitHub comparison](docs/upstream-evaluation.md) | Upstreams, related tools, ranked improvements, and evaluation criteria |
-| [Release preparation](docs/release.md) | Private marketplace rollout and later public-release requirements |
-
-## Checks available now
-
-From this repository root, with Node 22+ and Python 3.11:
+For a new installation, run this in a terminal:
 
 ```bash
-node runtime/scripts/self-test.mjs
-PYTHONDONTWRITEBYTECODE=1 python3.11 -m unittest discover -s runtime/scripts/resolve/tests -p 'test_*.py' -v
+git clone https://github.com/quickstark/qs-video-editor.git
+cd qs-video-editor
+
+codex plugin marketplace add "$PWD"
+codex plugin add qs-video-editor@qs-video-editor-local --json
+codex plugin list --marketplace qs-video-editor-local --json
 ```
 
-These test existing helper behavior using isolated fixtures. They do not establish plugin discovery, profile bootstrap, a real renderer run, transcription accuracy, or editor import.
+If you already have this checkout, start with `cd` and skip the clone. The final command should show `qs-video-editor@qs-video-editor-local`, version `0.2.0`, installed and enabled. Reload Codex if the six skills do not appear in its picker.
 
-The original distribution was marked `UNLICENSED`. No public license has been selected or granted. Historical bootstrap/package code remains recoverable locally from private checkpoint `fe8ac88`; that history is excluded from the public branch, and the removed paths are not current commands.
+Upgrading the original `video-editor` plugin? Follow the [namespace migration](docs/namespace-migration.md) to update the workspace binding and remove the old skill names.
+
+## Set up your first workspace
+
+In Codex, select `$qs-video-editor:qs-video-setup` and use a request like this:
+
+```text
+Create a video workspace at ~/video-workspaces/first-edit using the installed
+QS Video Editor runtime. I need trims and conversions only. Check the quick
+profile, show the setup plan, create the workspace, and verify it.
+Keep the workspace outside the plugin checkout.
+```
+
+Setup creates the workspace configuration and launcher. It does not install packages, download models, or move media. Then select `$qs-video-editor:qs-video-quick` and name your input files, output folder, and requested changes.
+
+For terminal setup, graphics or transcription dependencies, and an existing workspace, use the [installation guide](docs/installation.md). You do not need to run `npm install` in this plugin repository.
+
+## Choose a workflow
+
+| Skill | Use it for | Setup profile |
+| --- | --- | --- |
+| `qs-video-setup` | Create a workspace, check tools, or add a capability | Selected for the job |
+| `qs-video-quick` | Trims, conversions, resizing, and audio extraction | `quick` |
+| `qs-video-transcribe` | Local transcripts, corrections, and captions | `transcribe` |
+| `qs-video-graphics` | Titles, lower thirds, overlays, and standalone motion graphics | `graphics` |
+| `qs-video-edit` | A sustained edit and editable handoff | `full`, with other capabilities added as needed |
+| `qs-video-review` | Technical, visual, listening, editorial, or editor-import review | Tools needed for the selected checks |
+
+The [usage guide](docs/usage.md) has prompts for each workflow and instructions for resuming an existing project. A full editorial workspace does not automatically install graphics or transcription tools.
+
+## Keep the plugin and media separate
+
+```text
+work/
+├── qs-video-editor/          # Plugin source
+└── video-workspaces/
+    └── my-film/              # Media, projects, dependencies, and outputs
+```
+
+Installing the plugin copies its instructions and runtime into the Codex cache. A workspace records the runtime version and digest it uses. A workspace uses a different runtime only after an explicit migration.
+
+## Verification and limits
+
+Version `0.2.0` source publication and local installation were verified on macOS. Checks covered the six skills, workspace preservation, a real FFmpeg conversion, reproducible packaging, and update/rollback recovery. Fresh renderer/ASR installation, native Resolve import, and Windows/Linux remain unverified. See the [verification record](docs/draft-inspection.md) for the evidence.
+
+To check this source checkout, use Node.js 22+ and Python 3.11, with FFmpeg/ffprobe available:
+
+```bash
+npm run check
+npm test
+npm run test:helpers
+npm run test:resolve
+```
+
+The tests use temporary fixtures. They do not replace watching a render, listening to the audio, or checking an editor import.
+
+## Documentation
+
+| Document | Contents |
+| --- | --- |
+| [Installation](docs/installation.md) | Requirements, workspace setup, optional tools, and troubleshooting |
+| [Usage](docs/usage.md) | Prompts, terminal commands, batch processing, and approvals |
+| [Namespace migration](docs/namespace-migration.md) | Upgrade from the original plugin and restore an earlier binding |
+| [Migration specification](docs/migration-spec.md) | Architecture, workspace contracts, and acceptance tests |
+| [Upstream evaluation](docs/upstream-evaluation.md) | Related tools and proposed improvements |
+| [Release procedure](docs/release.md) | Source/package checks and publication boundaries |
+
+The source is `UNLICENSED`; no public license has been granted. Media, models, fonts, and other assets retain their own terms.
