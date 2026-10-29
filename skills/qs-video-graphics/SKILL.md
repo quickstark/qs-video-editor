@@ -5,7 +5,7 @@ description: Create editable titles, overlays, lower thirds, and standalone moti
 
 # qs-video-graphics
 
-Read the graphics reference and selected brand/style. Use the workspace-pinned HyperFrames with telemetry disabled. Build fully visible layouts before motion, keep animation seekable and deterministic, verify rational fps and alpha where needed, and preserve composition source plus separate layers. Remotion is an optional separately configured alternative. Do not require a full-film edit or upload private assets.
+Read the graphics reference and selected brand/style. For a standalone graphic, use the [concise brief](../../runtime/references/graphics-brief.md) without requiring a transcript or full-film scaffold. Build from the [three canonical recipes](../../runtime/references/graphics-recipes.md), then use the [three-round review loop](../../runtime/references/graphics-review.md) on the actual rendered revision. Use the workspace-pinned HyperFrames with telemetry disabled. Build fully visible layouts before motion, keep animation seekable and deterministic, verify rational fps and alpha where needed, and preserve composition source plus separate layers. Remotion is an optional separately configured alternative. Do not require a full-film edit or upload private assets.
 
 Read [shared invariants](../../runtime/references/shared.md) before media work and [setup](../../docs/installation.md) for commands and version binding. Resolve the plugin root as two directories above this skill; never assume an author's checkout path. Every helper lives once in `runtime/scripts/`. From a workspace, prefer `node .video-editor/run.mjs <command>` so the recorded runtime version is used. Run `--help` before composing unfamiliar commands.
 

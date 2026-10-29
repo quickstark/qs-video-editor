@@ -4,7 +4,9 @@ Use HyperFrames as the default renderer for motion graphics. Keep planning separ
 
 ## Plan before authoring
 
-Read the edited transcript, creative brief, script comments, B-roll transcript, brand, style, and timeline markers.
+For standalone graphics, start with the [concise design brief](graphics-brief.md); no film scaffold, transcript, or timeline is required. For a graphic in an existing film, read its relevant edited transcript, creative brief, script comments, B-roll transcript, brand, style, and timeline markers.
+
+Use the original [masked-title, SVG assembly and counter recipes](graphics-recipes.md) as editable authoring examples, and the [bounded review procedure](graphics-review.md) for the exact output. These additions keep the v1 graphics-plan fields, existing frame-rate/alpha/track contracts, and pinned tools.
 
 Default to no graphic. A beat earns one when it is:
 
@@ -28,7 +30,7 @@ Allowed plan kinds:
 - title
 - end-card
 
-Write the complete plan to `graphics-build/graphics-plan.json`, including a readable rationale for each item. Validate it before building.
+Write the complete plan to `graphics-build/graphics-plan.json`, including a readable rationale for each item. Validate it before building. Keep recipe parameters in `graphics-build/DESIGN.md`, matched by item ID; the v1 validator rejects unknown item fields.
 
 ## Choose part behavior
 
