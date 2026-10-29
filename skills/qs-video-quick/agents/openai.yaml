@@ -1,0 +1,6 @@
+interface:
+  display_name: "QS Video Quick"
+  icon_small: "../../assets/qs-video-editor.png"
+  icon_large: "../../assets/qs-video-editor.png"
+  short_description: "Trim, convert, resize, or extract local media"
+  default_prompt: "Use $qs-video-quick to process these local video files with a safe batch plan."

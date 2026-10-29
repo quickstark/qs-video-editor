@@ -1,0 +1,37 @@
+{
+  "name": "qs-video-workspace",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Codex-first, privacy-conscious video workspace with editable NLE handoff.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "video:check": "node .video-editor/run.mjs check",
+    "video:python:sync": "uv sync --locked --python 3.11 --no-python-downloads",
+    "video:transcribe": "node .video-editor/run.mjs transcribe",
+    "video:self-test": "node .video-editor/run.mjs self-test",
+    "video:scaffold": "node .video-editor/run.mjs scaffold",
+    "video:probe": "node .video-editor/run.mjs probe",
+    "video:derivative:register": "node .video-editor/run.mjs register-derivative",
+    "video:review:frames": "node .video-editor/run.mjs review-frames",
+    "video:graphics:validate": "node .video-editor/run.mjs validate-graphics",
+    "video:promote": "node .video-editor/run.mjs promote",
+    "video:resolve:test": "node .video-editor/run.mjs resolve-test",
+    "video:resolve:validate": "node .video-editor/run.mjs resolve --validate-only",
+    "video:resolve:plan": "node .video-editor/run.mjs resolve",
+    "hyperframes:doctor": "HYPERFRAMES_NO_TELEMETRY=1 hyperframes doctor",
+    "hyperframes:check": "HYPERFRAMES_NO_TELEMETRY=1 hyperframes check",
+    "hyperframes:lint": "HYPERFRAMES_NO_TELEMETRY=1 hyperframes lint",
+    "hyperframes:inspect": "HYPERFRAMES_NO_TELEMETRY=1 hyperframes inspect",
+    "hyperframes:preview": "HYPERFRAMES_NO_TELEMETRY=1 hyperframes preview --port 3017 --no-open",
+    "video:bootstrap": "node .video-editor/run.mjs bootstrap",
+    "video:quick": "node .video-editor/run.mjs quick",
+    "video:captions": "node .video-editor/run.mjs captions",
+    "video:evidence": "node .video-editor/run.mjs evidence"
+  },
+  "devDependencies": {
+    "gsap": "3.14.2",
+    "hyperframes": "0.7.109"
+  }
+}

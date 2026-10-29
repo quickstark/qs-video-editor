@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "id": "talking-head",
+  "status": "provisional",
+  "description": "Clear, concise talking-head editing with transcript-led decisions and editable graphics.",
+  "formats": [
+    {
+      "id": "talking-head-16x9",
+      "aspectRatio": "16:9",
+      "resolutionMode": "source-capability-led",
+      "frameRate": "probe-source-exact-rational",
+      "titleSafePercent": 8
+    }
+  ],
+  "typography": {
+    "display": "licensed-project-font-or-Inter",
+    "supporting": "Inter",
+    "requireFontFilesBeforeFinal": true
+  },
+  "editorial": {
+    "openOnHook": "brief-dependent",
+    "lastTakeWins": "never-assume",
+    "fillerRemoval": "paper-edit-and-human-review-only",
+    "silenceCompression": "speaker-meaning-and-breath-aware",
+    "preserve": [
+      "complete-thoughts",
+      "speaker-intent",
+      "pronunciations",
+      "source-links"
+    ],
+    "forbid": [
+      "fabricated-quotation",
+      "identity-inference",
+      "undisclosed-voice-generation"
+    ]
+  },
+  "graphics": {
+    "frequency": "explanation-led",
+    "primaryRenderer": "hyperframes",
+    "fallbackRenderer": "remotion",
+    "safeZonePercent": 8
+  },
+  "audio": {
+    "dialoguePriority": true,
+    "reviewIntegratedLufs": -16,
+    "truePeakDbtp": -1.5,
+    "separateStems": true
+  },
+  "generatedAssets": {
+    "enabledByDefault": false,
+    "approval": "explicit-item-level",
+    "speakerLikenessOrVoiceAllowed": false
+  }
+}

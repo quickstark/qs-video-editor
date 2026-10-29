@@ -1,0 +1,30 @@
+{
+  "name": "qs-video-editor",
+  "version": "0.2.0",
+  "description": "Local AI-assisted video editing with independent workspaces and editable handoffs.",
+  "license": "UNLICENSED",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "QS Video Editor",
+    "shortDescription": "Local AI video editing",
+    "longDescription": "Six focused workflows for setup, quick edits, local transcription, motion graphics, sustained editorial work, and evidence-based review. Local media stays in independent workspaces.",
+    "category": "Creativity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me edit a local video",
+      "Set up only the video tools I need",
+      "Review my current video edit"
+    ],
+    "developerName": "QuickStark",
+    "logo": "./assets/qs-video-editor.png",
+    "composerIcon": "./assets/qs-video-editor.png"
+  },
+  "author": {
+    "name": "QuickStark",
+    "url": "https://github.com/quickstark"
+  },
+  "homepage": "https://github.com/quickstark/qs-video-editor"
+}

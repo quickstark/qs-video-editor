@@ -1,0 +1,19 @@
+{
+  "name": "qs-video-editor-local",
+  "interface": {
+    "displayName": "QS Video Editor Local"
+  },
+  "plugins": [
+    {
+      "name": "qs-video-editor",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+interface:
+  display_name: "QS Video Transcribe"
+  icon_small: "../../assets/qs-video-editor.png"
+  icon_large: "../../assets/qs-video-editor.png"
+  short_description: "Transcribe local speech and prepare captions"
+  default_prompt: "Use $qs-video-transcribe to create a local transcript and prepare captions for this edit."

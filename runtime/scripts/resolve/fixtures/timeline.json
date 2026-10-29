@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "projectId": "resolve-bridge-fixture",
+  "timelineId": "ceremony-highlight",
+  "format": {
+    "width": 1920,
+    "height": 1080,
+    "pixelAspectRatio": "square",
+    "frameRateNumerator": 24000,
+    "frameRateDenominator": 1001,
+    "dropFrame": false
+  },
+  "startTimecode": "01:00:00:00",
+  "videoTracks": [
+    {
+      "id": "V1",
+      "name": "Primary Picture",
+      "role": "primary-picture",
+      "enabled": true,
+      "locked": false,
+      "items": [
+        {
+          "id": "camera-a-video",
+          "trackId": "V1",
+          "sourceId": "camera-a",
+          "sourcePath": "media/camera-a.fixture",
+          "sourceInFrame": 10,
+          "sourceOutFrame": 250,
+          "timelineStartFrame": 0,
+          "timelineEndFrame": 240,
+          "enabled": true,
+          "syncGroupId": "camera-a-sync",
+          "notes": [
+            "Fixture only; not real media."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "V2",
+      "name": "HyperFrames Graphics",
+      "role": "graphics-with-alpha",
+      "enabled": true,
+      "locked": false,
+      "items": []
+    }
+  ],
+  "audioTracks": [
+    {
+      "id": "A1",
+      "name": "Synchronized Dialogue",
+      "role": "dialogue-primary",
+      "audioType": "stereo",
+      "enabled": true,
+      "locked": false,
+      "items": [
+        {
+          "id": "camera-a-dialogue",
+          "trackId": "A1",
+          "sourceId": "camera-a",
+          "sourcePath": "media/camera-a.fixture",
+          "sourceInFrame": 10,
+          "sourceOutFrame": 250,
+          "timelineStartFrame": 0,
+          "timelineEndFrame": 240,
+          "enabled": true,
+          "syncGroupId": "camera-a-sync",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "id": "A2",
+      "name": "Licensed Music",
+      "role": "licensed-music",
+      "audioType": "stereo",
+      "enabled": true,
+      "locked": false,
+      "items": []
+    }
+  ],
+  "captionTracks": [],
+  "graphicsItems": [
+    {
+      "id": "hyperframes-opening-title",
+      "trackId": "V2",
+      "sourceId": "hf-opening",
+      "sourcePath": "media/hyperframes-alpha.fixture",
+      "sourceInFrame": 0,
+      "sourceOutFrame": 120,
+      "timelineStartFrame": 240,
+      "timelineEndFrame": 360,
+      "enabled": true,
+      "syncGroupId": null,
+      "notes": [
+        "Keep this alpha render editable on V2."
+      ]
+    }
+  ],
+  "musicItems": [
+    {
+      "id": "licensed-music-bed",
+      "trackId": "A2",
+      "sourceId": "music-bed",
+      "sourcePath": "media/licensed-music.fixture",
+      "sourceInFrame": 0,
+      "sourceOutFrame": 360,
+      "timelineStartFrame": 0,
+      "timelineEndFrame": 360,
+      "enabled": true,
+      "syncGroupId": null,
+      "notes": []
+    }
+  ],
+  "captionItems": [],
+  "markers": [
+    {
+      "id": "chapter-ceremony",
+      "frame": 0,
+      "kind": "chapter",
+      "label": "Ceremony",
+      "status": "open"
+    },
+    {
+      "id": "review-title-tail",
+      "frame": 359,
+      "kind": "qa",
+      "label": "Review title tail",
+      "status": "open"
+    }
+  ],
+  "interchange": {
+    "primaryFormat": "DRP_DRT",
+    "primaryPath": "outputs/interchange/ceremony-highlight.fcpxml",
+    "fallbackPath": "outputs/interchange/ceremony-highlight.edl",
+    "nativeProjectPath": "outputs/interchange/resolve-package.drp",
+    "nativeTimelinePath": "outputs/interchange/resolve-timeline.drt",
+    "otioPath": "outputs/interchange/portable-edit.otio"
+  }
+}

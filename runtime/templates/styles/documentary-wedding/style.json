@@ -1,0 +1,322 @@
+{
+  "schemaVersion": 1,
+  "id": "documentary-wedding",
+  "status": "provisional",
+  "description": "Truthful, intimate wedding-documentary editing with source-led timing and restrained graphics.",
+  "formats": [
+    {
+      "id": "highlight-16x9",
+      "aspectRatio": "16:9",
+      "resolutionMode": "source-capability-led",
+      "preferredWidth": 3840,
+      "preferredHeight": 2160,
+      "fallbackWidth": 1920,
+      "fallbackHeight": 1080,
+      "frameRate": "probe-source-exact-rational",
+      "titleSafePercent": 8
+    }
+  ],
+  "colors": {
+    "background": "$bg",
+    "rule": "$rule",
+    "accent": "$accent",
+    "accentSoft": "$accent-soft",
+    "ink": "$ink",
+    "muted": "$muted"
+  },
+  "typography": {
+    "display": {
+      "family": "Cormorant Garamond",
+      "weight": 600,
+      "fallback": "Georgia"
+    },
+    "supporting": {
+      "family": "Inter",
+      "weight": 400,
+      "fallback": "Arial"
+    },
+    "caption": {
+      "family": "Inter",
+      "weight": 500,
+      "fallback": "Arial"
+    },
+    "requireFontFilesBeforeFinal": true
+  },
+  "editorial": {
+    "mode": "documentary-wedding",
+    "chronology": "broadly-chronological-and-never-falsified",
+    "automaticFillerRemoval": false,
+    "automaticSilenceTrim": false,
+    "lastTakeWins": false,
+    "hookFirstRestructure": false,
+    "preserve": [
+      "vows",
+      "complete-thoughts",
+      "emotional-pauses",
+      "meaningful-repetition",
+      "laughter",
+      "breath",
+      "room-tone",
+      "truthful-reactions"
+    ],
+    "forbid": [
+      "fabricated-event",
+      "fabricated-person",
+      "fabricated-quotation",
+      "false-reaction",
+      "false-chronology",
+      "face-generation-or-reenactment"
+    ]
+  },
+  "storySpine": [
+    "place-and-anticipation",
+    "preparations-and-relationships",
+    "arrival-and-procession",
+    "ceremony-readings-vows-rings-kiss",
+    "release-and-portraits",
+    "reception-and-toasts",
+    "first-dances-and-celebration",
+    "authentic-closing-moment"
+  ],
+  "sceneTypes": [
+    "establishing-observation",
+    "intimate-detail",
+    "procession-and-movement",
+    "ceremony-master",
+    "vow-close-coverage",
+    "reaction",
+    "portrait-interlude",
+    "toast",
+    "dance-and-celebration",
+    "title-card",
+    "lower-third"
+  ],
+  "pacingSeconds": {
+    "establishing": {
+      "min": 3,
+      "max": 8
+    },
+    "detail": {
+      "min": 2,
+      "max": 5
+    },
+    "portrait": {
+      "min": 2.5,
+      "max": 6
+    },
+    "danceMontage": {
+      "min": 1,
+      "max": 3
+    },
+    "closing": {
+      "min": 4,
+      "max": 10
+    },
+    "spokenWord": "thought-led-no-automatic-maximum"
+  },
+  "transitions": {
+    "continuousDialogue": "straight-cut-with-continuous-synced-audio",
+    "continuousAction": "straight-cut-on-action-or-eyeline",
+    "chapterChange": "optional-8-to-16-frame-dissolve",
+    "titleBoundary": "clean-cut-or-10-to-16-frame-neutral-dissolve",
+    "hyperframesMultiScene": "restrained-crossfade-or-reveal",
+    "forbiddenByDefault": [
+      "whip-pan",
+      "glitch",
+      "film-burn",
+      "fake-light-leak",
+      "template-flourish"
+    ]
+  },
+  "camera": {
+    "masterAngleIsContinuityAnchor": true,
+    "digitalPushPercent": {
+      "min": 2,
+      "max": 5
+    },
+    "digitalPushMinimumSeconds": 4,
+    "stretchToFit": false,
+    "preferFfmpegForGeometry": true,
+    "stabilization": "only-when-natural-and-warp-free"
+  },
+  "multicam": {
+    "enabledWhenSourcesSupport": true,
+    "syncEvidencePriority": [
+      "embedded-timecode",
+      "waveform",
+      "slate",
+      "recorded-time",
+      "visual-evidence"
+    ],
+    "verifyAt": [
+      "start",
+      "middle",
+      "end"
+    ],
+    "lowConfidenceBehavior": "flag-for-human-review",
+    "reactionRule": "must-be-synchronous-or-honestly-nonliteral"
+  },
+  "graphics": {
+    "frequency": "sparse",
+    "renderer": {
+      "primary": "hyperframes",
+      "fallback": "remotion"
+    },
+    "allowedKinds": [
+      "title-card",
+      "lower-third",
+      "chapter-card",
+      "decorative-overlay"
+    ],
+    "pictureInPicture": {
+      "enabledByDefault": false,
+      "referenceCanvas": {
+        "width": 1920,
+        "height": 1080
+      },
+      "x": 1288,
+      "y": 669,
+      "width": 560,
+      "height": 315,
+      "rightMargin": 72,
+      "bottomMargin": 96,
+      "borderPixels": 2,
+      "borderColor": "$rule",
+      "entrancesPerContinuousRun": 1
+    },
+    "titleCard": {
+      "maxWidth": 1240,
+      "nameSizePixels": {
+        "min": 112,
+        "max": 148
+      },
+      "metadataSizePixels": {
+        "min": 28,
+        "max": 34
+      },
+      "verticalGapPixels": 32,
+      "ruleMaxWidthPixels": 360
+    },
+    "lowerThird": {
+      "x": 154,
+      "yMin": 830,
+      "yMax": 930,
+      "maxWidth": 620,
+      "nameSizePixels": 42,
+      "roleSizePixels": 24,
+      "gapPixels": 12,
+      "maxLines": 2
+    },
+    "animation": {
+      "deterministic": true,
+      "seekable": true,
+      "entranceSeconds": {
+        "min": 0.45,
+        "max": 0.9
+      },
+      "staggerSeconds": {
+        "min": 0.12,
+        "max": 0.25
+      },
+      "infiniteRepeat": false,
+      "layoutBeforeAnimation": true
+    }
+  },
+  "generatedAssets": {
+    "enabledByDefault": false,
+    "approval": "explicit-item-level",
+    "allowed": [
+      "abstract-texture",
+      "nonrepresentational-shape",
+      "decorative-botanical-motif"
+    ],
+    "forbidden": [
+      "person",
+      "face",
+      "venue",
+      "weather",
+      "vow",
+      "ring",
+      "flower-arrangement-as-event-evidence",
+      "reenactment",
+      "unrecorded-event"
+    ]
+  },
+  "color": {
+    "priority": "camera-match-and-skin-tone-fidelity",
+    "look": "warm-neutral",
+    "protectHighlights": true,
+    "crushBlacks": false,
+    "grain": {
+      "enabledByDefault": false,
+      "type": "fine-monochromatic-35mm",
+      "opacityPercentAt1080p": {
+        "min": 3,
+        "max": 5
+      }
+    }
+  },
+  "audio": {
+    "dialogueShortTermLufs": {
+      "min": -20,
+      "max": -16
+    },
+    "reviewIntegratedLufs": -16,
+    "truePeakDbtp": -1.5,
+    "musicUnderSpeechDbfsStartingRange": {
+      "min": -24,
+      "max": -20
+    },
+    "licensedMusicOnly": true,
+    "downloadMusicAutomatically": false,
+    "realSfxOnly": true,
+    "stems": [
+      "dialogue",
+      "ambience",
+      "music",
+      "sfx"
+    ]
+  },
+  "captions": {
+    "burnedInByDefault": false,
+    "srtOnRequest": true,
+    "verbatim": true,
+    "sentenceCase": true,
+    "maxLines": 2,
+    "wordByWordAnimationOnVows": false
+  },
+  "handoff": {
+    "primary": "davinci-resolve-native-project-and-timeline",
+    "resolveInstallationAssumed": false,
+    "preferredTimelineFormat": "drp-and-drt",
+    "portableTimelineFormats": [
+      "otio",
+      "fcpxml"
+    ],
+    "limitedFallbackTimelineFormat": "edl",
+    "include": [
+      "source-relink-map",
+      "timeline-manifest",
+      "separate-video-tracks",
+      "dialogue-stem",
+      "ambience-stem",
+      "music-stem",
+      "sfx-stem",
+      "graphics-with-alpha-when-supported",
+      "captions-srt-when-requested",
+      "timeline-markers",
+      "review-mp4"
+    ]
+  },
+  "learned": [],
+  "assumptions": {
+    "status": "confirm-before-style-lock",
+    "runtimeMinutes": {
+      "min": 6,
+      "max": 8
+    },
+    "primaryFormat": "16:9-highlight-film",
+    "heroCaptions": false,
+    "generatedAssets": false
+  }
+}

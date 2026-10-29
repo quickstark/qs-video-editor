@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "documentary",
+  "status": "provisional",
+  "description": "Truth-first documentary editing with source-led pacing and restrained graphics.",
+  "formats": [
+    {
+      "id": "documentary-16x9",
+      "aspectRatio": "16:9",
+      "resolutionMode": "source-capability-led",
+      "frameRate": "probe-source-exact-rational",
+      "titleSafePercent": 8
+    }
+  ],
+  "typography": {
+    "display": "licensed-project-font-or-EB-Garamond",
+    "supporting": "Inter",
+    "requireFontFilesBeforeFinal": true
+  },
+  "editorial": {
+    "chronology": "truthful-compression-per-brief",
+    "automaticFillerRemoval": false,
+    "automaticSilenceTrim": false,
+    "preserve": [
+      "complete-thoughts",
+      "source-context",
+      "meaningful-pauses",
+      "natural-sound"
+    ],
+    "forbid": [
+      "fabricated-quotation",
+      "false-reaction",
+      "generated-documentary-evidence"
+    ]
+  },
+  "graphics": {
+    "frequency": "sparse",
+    "primaryRenderer": "hyperframes",
+    "fallbackRenderer": "remotion",
+    "safeZonePercent": 8
+  },
+  "audio": {
+    "dialoguePriority": true,
+    "reviewIntegratedLufs": -16,
+    "truePeakDbtp": -1.5,
+    "separateStems": true
+  },
+  "generatedAssets": {
+    "enabledByDefault": false,
+    "approval": "explicit-item-level",
+    "documentaryEvidenceAllowed": false
+  }
+}

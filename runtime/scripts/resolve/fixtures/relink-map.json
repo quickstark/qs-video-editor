@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "projectId": "resolve-bridge-fixture",
+  "status": "ready",
+  "hashAlgorithm": "sha256",
+  "pathPolicy": "project-relative-forward-slashes",
+  "sources": [
+    {
+      "path": "media/camera-a.fixture",
+      "sha256": "7114f530f3da74be5edc9cfc778955ffbb5b25aa7211d17832988c0a6d206789"
+    }
+  ],
+  "derivatives": [
+    {
+      "path": "media/hyperframes-alpha.fixture",
+      "sha256": "25910f05c68b5a216e491260c25689a378f39feb9c739ee5a84ae26611184c39"
+    },
+    {
+      "path": "media/licensed-music.fixture",
+      "sha256": "b91368dde53f55a2670f4d6f69ec206e3943c2dd818f74606e88b301ea524bca"
+    }
+  ],
+  "missingMedia": []
+}
