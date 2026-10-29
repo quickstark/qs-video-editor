@@ -1,6 +1,6 @@
-# Release preparation
+# Release procedure
 
-The first rollout installs a local plugin and publishes its reusable source to GitHub. Pushing source, installing a local plugin, publishing an archive, submitting to a directory and publishing an approved listing are separate actions.
+Use this procedure for a reviewed source publication or plugin package. Identify the version, destination, and requested publication step first. A source push, local installation, archive release, and public directory listing each need their own verification.
 
 ## Reproducible checks
 
@@ -16,9 +16,9 @@ python3.11 scripts/package-plugin.py --output /absolute/path/out/qs-video-editor
 
 Build twice to distinct output paths and compare SHA-256. Extract into a new location, verify `checksums.json`, and rerun the same checks there. Archive output is for a requested release/handoff; ordinary source work should not leave ZIPs or test media in the repository. Tests clean up their temporary synthetic fixtures.
 
-The packager uses an explicit source allowlist and fixed ZIP metadata. It rejects symlinks/unexpected file types, excludes Git internals, dependency installs, caches, private projects, models and rendered media, and includes per-file checksums. Do not zip the sibling legacy workspace. A checksum proves file identity, not legal or editorial correctness.
+The packager uses an explicit source allowlist and fixed ZIP metadata. It rejects symlinks/unexpected file types, excludes Git internals, dependency installs, caches, private projects, models and rendered media, and includes per-file checksums. Do not zip the sibling legacy workspace. Checksums identify the packaged bytes; asset rights and editorial review need separate checks.
 
-## Private release gate
+## Local/source release gate
 
 - Portable and Codex manifests agree; exactly six skills have valid names/UI metadata and live references.
 - Bootstrap, isolation, conflict, lock, migration-preservation, caption mapping and real-media quick tests pass.
@@ -40,13 +40,13 @@ Earlier private migration checkpoints remain available locally and are excluded 
 
 Publish only the reviewed reusable source tree. Audit current files, example project identifiers, archive contents, and the intended public commit ancestry; a clean current tree does not sanitize older commits. Preserve the full pre-publication history under a local-only private ref for recovery. Never push that ref or use `git push --all`/`--mirror` for this repository.
 
-For the first publication to the explicitly selected empty `quickstark/qs-video-editor` repository, start fresh public history from the sanitized tree. A connected GitHub API may initialize the public README, create the full tree and a commit, then advance `main` with an expected-head check when direct Git transport is unavailable. Require the returned tree SHA to match the tested local tree. Independently read back the remote commit/tree and the 0.2.0 manifest before recording source publication as passed. Adopt the verified public commit locally only after preserving the private history and verifying that the source tree is unchanged.
+The first publication to `quickstark/qs-video-editor` used a fresh public root from the sanitized tree. Subsequent changes must descend from that public history. Keep private recovery refs local. Before a push, verify the selected commits, required checks, version, and destination. Afterward, independently read back the remote commit/tree and plugin manifest and compare them with the tested source. A connected GitHub API can publish a tree and advance a branch with an expected-head check when direct Git transport is unavailable.
 
-Source publication is separate from a tagged release, live Codex installation, a public plugin-directory listing and real editor import. Report each boundary truthfully. Follow the [namespace migration](namespace-migration.md) for installation/update and workspace rollback; a protected user configuration may require those host commands to run in an ordinary terminal.
+Report the source push, tagged release, local installation, directory listing, and editor import separately. Follow the [namespace migration](namespace-migration.md) for installation/update and workspace rollback. Run host installation commands in a terminal that can write the Codex configuration and cache.
 
 ## Public listing preparation
 
-Supported draft copy:
+Draft listing copy:
 
 | Field | Draft |
 | --- | --- |
